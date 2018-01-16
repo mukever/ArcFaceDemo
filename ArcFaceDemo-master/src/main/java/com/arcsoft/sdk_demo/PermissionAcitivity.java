@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Process;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +83,12 @@ public class PermissionAcitivity extends Activity {
 			mProgressDialog.setTitle("loading register data...");
 			mProgressDialog.setCancelable(false);
 			mProgressDialog.show();
+//			try {
+//				//初始化sh
+//				Runtime.getRuntime().exec("");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 			new Thread(new Runnable() {
 				@Override
 				public void run() {

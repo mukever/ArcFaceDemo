@@ -24,12 +24,12 @@ import java.util.List;
 public class FaceDB {
 	private final String TAG = this.getClass().toString();
 
-	public static String appid = "xxx";
-	public static String ft_key = "xxx";
-	public static String fd_key = "xxx";
-	public static String fr_key = "xxx";
-	public static String age_key = "xxx";
-	public static String gender_key = "xxx";
+	public static String appid = "29LtP4pCXEEcKvGSBcLojjG4kEgtUnT2XXvQ6bnN3PL6";
+	public static String ft_key = "Gbrwwsvh3gdseQ66RtSF83quAQorgYCEsdZgNspNwaeF";
+	public static String fd_key = "Gbrwwsvh3gdseQ66RtSF83r2Kp51L2hYt4f3XJwDjMc4";
+	public static String fr_key = "Gbrwwsvh3gdseQ66RtSF83rWyR7jVyLkBk1p657jVvVV";
+	public static String age_key = "Gbrwwsvh3gdseQ66RtSF83rmJDe32QG4AdzFiLQBWF2a";
+	public static String gender_key = "Gbrwwsvh3gdseQ66RtSF83rtTcuDYfRYCKsDsXPBSabz";
 
 	String mDBPath;
 	List<FaceRegist> mRegister;

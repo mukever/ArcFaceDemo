@@ -43,6 +43,7 @@ import com.guo.android_extend.widget.CameraGLSurfaceView;
 import com.guo.android_extend.widget.CameraSurfaceView;
 import com.guo.android_extend.widget.CameraSurfaceView.OnCameraListener;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,10 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 	private CameraSurfaceView mSurfaceView;
 	private CameraGLSurfaceView mGLSurfaceView;
 	private Camera mCamera;
+    private  String cmd0 = "echo 0 > /sys/class/gpio/gpio101/value  " +"\n";//要执行的shell命令
+    private  String cmd1 = "echo 1 > /sys/class/gpio/gpio101/value  " +"\n" ;//要执行的shell命令
 
-	AFT_FSDKVersion version = new AFT_FSDKVersion();
+    AFT_FSDKVersion version = new AFT_FSDKVersion();
 	AFT_FSDKEngine engine = new AFT_FSDKEngine();
 	ASAE_FSDKVersion mAgeVersion = new ASAE_FSDKVersion();
 	ASAE_FSDKEngine mAgeEngine = new ASAE_FSDKEngine();
@@ -134,7 +137,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 				Log.d(TAG, "age:" + ages.get(0).getAge() + ",gender:" + genders.get(0).getGender());
 				final String age = ages.get(0).getAge() == 0 ? "年龄未知" : ages.get(0).getAge() + "岁";
 				final String gender = genders.get(0).getGender() == -1 ? "性别未知" : (genders.get(0).getGender() == 0 ? "男" : "女");
-				
+				/*
 				//crop
 				byte[] data = mImageNV21;
 				YuvImage yuv = new YuvImage(data, ImageFormat.NV21, mWidth, mHeight, null);
@@ -146,8 +149,8 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				if (max > 0.6f) {
+                */
+				if (max > 0.72f) {
 					//fr success.
 					final float max_score = max;
 					Log.d(TAG, "fit Score:" + max + ", NAME:" + name);
@@ -168,8 +171,25 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 								mImageView.setScaleY(-1);
 							}
 							mImageView.setImageAlpha(255);
-							mImageView.setImageBitmap(bmp);
-						}
+							//mImageView.setImageBitmap(bmp);
+                            try {
+                                Process process = Runtime.getRuntime().exec("su");
+                                DataOutputStream os = new DataOutputStream(process.getOutputStream());
+                                os.write(cmd0.getBytes());
+                                os.flush();
+                                sleep(20);
+                                os.write(cmd1.getBytes());
+                                os.flush();
+                                sleep(20);
+                                os.write(cmd0.getBytes());
+                                os.flush();
+                                os.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
 					});
 				} else {
 					final String mNameShow = "未识别";
@@ -187,7 +207,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 							if (mCameraMirror) {
 								mImageView.setScaleY(-1);
 							}
-							mImageView.setImageBitmap(bmp);
+							//mImageView.setImageBitmap(bmp);
 						}
 					});
 				}
@@ -216,7 +236,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 		super.onCreate(savedInstanceState);
 
 		mCameraID = getIntent().getIntExtra("Camera", 0) == 0 ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
-		mCameraRotate = getIntent().getIntExtra("Camera", 0) == 0 ? 90 : 270;
+		mCameraRotate = getIntent().getIntExtra("Camera", 0) == 0 ? 90 :270;
 		mCameraMirror = getIntent().getIntExtra("Camera", 0) == 0 ? false : true;
 		mWidth = 1280;
 		mHeight = 960;
@@ -299,13 +319,13 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 					Log.d(TAG, "V=" + data);
 				}
 			}
-			//parameters.setPreviewFpsRange(15000, 30000);
-			//parameters.setExposureCompensation(parameters.getMaxExposureCompensation());
-			//parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-			//parameters.setAntibanding(Camera.Parameters.ANTIBANDING_AUTO);
-			//parmeters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-			//parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
-			//parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
+			parameters.setPreviewFpsRange(15000, 30000);
+			parameters.setExposureCompensation(parameters.getMaxExposureCompensation());
+			parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+			parameters.setAntibanding(Camera.Parameters.ANTIBANDING_AUTO);
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+			parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
+			parameters.setColorEffect(Camera.Parameters.EFFECT_NONE);
 			mCamera.setParameters(parameters);
 		} catch (Exception e) {
 			e.printStackTrace();
