@@ -5,9 +5,21 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- sdcard -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- wifi internet -->
-    <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!--允许应用程序改变网络状态-->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+
+    <!--允许应用程序改变WIFI连接状态-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <!--允许应用程序访问有关的网络信息-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!--允许应用程序访问WIFI网卡的网络信息-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!--允许应用程序完全使用网络-->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="com.arcsoft.sdk_demo.Application"
         android:allowBackup="true"
@@ -22,12 +34,30 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.arcsoft.sdk_demo.RegisterActivity">
-        </activity>
         <activity android:name="com.arcsoft.sdk_demo.DetecterActivity">
         </activity>
         <activity android:name="com.arcsoft.sdk_demo.MainActivity">
         </activity>
+
+
+        <service android:name="moma.service.EchoService"
+            android:enabled="true"
+            android:priority="800"></service>
+        <service android:name="moma.service.DisCoveryService"
+            android:enabled="true"
+            android:priority="1000"></service>
+        <service android:name="moma.listen.ListenService"
+            android:enabled="true"
+            android:priority="801"></service>
+
+        <receiver android:name="moma.service.DiscoryReceiver"
+            android:enabled="true"
+            android:priority="999"></receiver>
+        <receiver android:name="moma.service.EchoReceive"
+            android:enabled="true"
+            android:priority="995"></receiver>
+
+
     </application>
 
 </manifest>

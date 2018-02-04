@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.arcsoft.sdk_demo"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 27
         versionCode 1
         versionName "1.1"
         sourceSets.main {
@@ -20,6 +20,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {

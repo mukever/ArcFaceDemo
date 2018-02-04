@@ -83,17 +83,12 @@ public class PermissionAcitivity extends Activity {
 			mProgressDialog.setTitle("loading register data...");
 			mProgressDialog.setCancelable(false);
 			mProgressDialog.show();
-//			try {
-//				//初始化sh
-//				Runtime.getRuntime().exec("");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					Application app = (Application) PermissionAcitivity.this.getApplicationContext();
-					app.mFaceDB.loadFaces();
+				//	app.mFaceDB.loadFaces();
 					PermissionAcitivity.this.runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
